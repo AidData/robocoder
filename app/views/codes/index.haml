@@ -1,0 +1,28 @@
+%h2 Purpose Codes
+%table.table
+  %thead
+    %tr
+      %th number
+      %th name
+  %tbody
+    - @purpose_codes.each do |code|
+      %tr
+        %th
+          #{code.number}
+        %th
+          #{code.name}
+
+%h2 Activity Codes
+%table.table
+  %thead
+    %tr
+      %th number
+      %th name
+  %tbody
+    - @activity_codes.each do |code|
+      %tr
+        %th
+          #{code.number}
+        %th
+          #{code.name}
+%a{href: '/codes/new'} Create a new code

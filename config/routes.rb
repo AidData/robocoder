@@ -1,4 +1,6 @@
 Robocoder::Application.routes.draw do
+  root to: "codes#index"
+  resources :codes
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

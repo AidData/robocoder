@@ -1,6 +1,11 @@
 Robocoder::Application.routes.draw do
-  root to: "codes#index"
-  resources :codes
+  root to: "static#robocode"
+  resources :codes do
+    resources :patterns
+  end
+
+  post 'static/classify'
+  match ':action' => 'static#:action'
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

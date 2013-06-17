@@ -1,9 +1,17 @@
 class Code < ActiveRecord::Base
   attr_accessible :name, :number
+  set_primary_key :number
+
+  has_many :patterns, dependent: :delete_all
+
+  validates :name, presence: true
+  validates_presence_of :number
+  validates_uniqueness_of :number
+
 
   def type
-    case number.length
-    when 8
+    case number.to_s.length
+    when 7
       "activity"
     when 5
       "purpose"

@@ -11,11 +11,18 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130612221625) do
+ActiveRecord::Schema.define(:version => 20130614183434) do
 
-  create_table "codes", :force => true do |t|
+  create_table "codes", :id => false, :force => true do |t|
     t.string   "name"
-    t.string   "number"
+    t.integer  "number"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "patterns", :force => true do |t|
+    t.string   "regex"
+    t.integer  "code_id"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end

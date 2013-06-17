@@ -1,4 +1,8 @@
-%h1 Code
-=@code.name
-%br
-=@code.number
+%h2 #{formatted_code_number(@code)} - #{@code.name}
+%h3 Patterns
+%ul
+  = @code.patterns.each do |pattern|
+    %li
+      = link_to pattern.regex, [@code, pattern]
+
+= link_to "add new pattern", new_code_pattern_path(@code)

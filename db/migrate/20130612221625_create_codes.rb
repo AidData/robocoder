@@ -1,8 +1,8 @@
 class CreateCodes < ActiveRecord::Migration
   def change
-    create_table :codes do |t|
+    create_table :codes, {id: false} do |t|
       t.string :name
-      t.string :number
+      t.integer :number
 
       t.timestamps
     end

@@ -8,7 +8,7 @@
     - @purpose_codes.each do |code|
       %tr
         %th
-          #{code.number}
+          = link_to formatted_code_number(code), code
         %th
           #{code.name}
 
@@ -22,7 +22,7 @@
     - @activity_codes.each do |code|
       %tr
         %th
-          #{code.number}
+          = link_to formatted_code_number(code), code
         %th
           #{code.name}
 %a{href: '/codes/new'} Create a new code

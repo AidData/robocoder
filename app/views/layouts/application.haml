@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+%html
+  %head
+    %title Robocoder
+    = stylesheet_link_tag     "application", media: "all"
+    = javascript_include_tag  "application"
+    = csrf_meta_tags
+  %body
+    .container
+      - flash.each do |name, msg|
+        - if msg.is_a?(String)
+          %div{:class => "alert alert-#{name == :notice ? "success" : "error"}"}
+            %a.close{"data-dismiss" => "alert"} ×
+            = content_tag :div, msg, :id => "flash_#{name}"
+    %h1
+      = link_to "Robocoder", root_path
+    %br
+    = yield

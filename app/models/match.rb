@@ -32,9 +32,11 @@ class Match < ActiveRecord::Base
     end
 
     if plural
+      plurals = []
       combos.each do |combo|
-        combos << combo.split(' ').map(&:pluarlize).join(' ')
+        plurals << combo.split(' ').map(&:pluralize).join(' ')
       end
+      combos += plurals
     end
 
     combos

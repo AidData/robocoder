@@ -7,6 +7,7 @@ class StaticController < ApplicationController
 
     #look in application controller for this function
     @pat_matches = roboclassify(desc)
+    @pat_matches = "no matches" if @pat_matches.empty?
 
     respond_to do |format|
       format.html { redirect_to controller: 'static', action: 'robocode', result: @pat_matches }

@@ -9,6 +9,8 @@ class MatchesController < ApplicationController
 
   def create
     match_params = params[:match]
+    # accept only lower case
+    match_params[:words] = match_params[:words].downcase
 
     # get codes
     codes = []

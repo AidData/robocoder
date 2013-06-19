@@ -1,28 +1,29 @@
-%h2 Purpose Codes
-%table.table
-  %thead
-    %tr
-      %th number
-      %th name
-  %tbody
-    - @purpose_codes.each do |code|
+.container
+  %a{href: '/codes/new'} Create a new code
+  %h2 Purpose Codes
+  %table.table
+    %thead
       %tr
-        %th
-          = link_to formatted_code_number(code), code
-        %th
-          #{code.name}
+        %th number
+        %th name
+    %tbody
+      - @purpose_codes.each do |code|
+        %tr
+          %th
+            = link_to formatted_code_number(code), code
+          %th
+            #{code.name}
 
-%h2 Activity Codes
-%table.table
-  %thead
-    %tr
-      %th number
-      %th name
-  %tbody
-    - @activity_codes.each do |code|
+  %h2 Activity Codes
+  %table.table
+    %thead
       %tr
-        %th
-          = link_to formatted_code_number(code), code
-        %th
-          #{code.name}
-%a{href: '/codes/new'} Create a new code
+        %th number
+        %th name
+    %tbody
+      - @activity_codes.each do |code|
+        %tr
+          %th
+            = link_to formatted_code_number(code), code
+          %th
+            #{code.name}

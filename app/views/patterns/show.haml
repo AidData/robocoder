@@ -1,7 +1,11 @@
-%h2 Pattern for #{@code.number} - #{@code.name}
-= @pattern.regex
+.container
+  %h3 Regular Expression
+  = "/#{@pattern.regex}/"
+  %h3 Codes
+  - @pattern.codes.order(:number).each do |c|
+    %ul #{c.full_name}
 
-%br
-= link_to "edit this pattern", [:edit, @code, @pattern]
-%br
-= link_to "add new pattern", new_code_pattern_path
+  %br
+  = link_to "edit this pattern", [:edit, @pattern]
+  %br
+  = link_to "add new pattern", new_pattern_path

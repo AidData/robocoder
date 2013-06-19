@@ -1,0 +1,47 @@
+%div#match_form
+  %form{id: 'new_match', method: 'post', action: '/matches'}
+    .row
+      %label{for: 'words'} Words
+      %input.span6{type: 'text', id: 'match_words', name: 'match[words]' }
+    .row-fluid
+      .span2
+        %label{for: 'unordered'} In any order?
+        %input{type: 'checkbox', id: 'match_unordered', name: 'match[unordered]',
+              value: 1}
+      .span2
+        %label{for: 'complete_text'} Complete description?
+        %input{type: 'checkbox', id: 'match_complete_text', name: 'match[complete_text]',
+              value: 1}
+      .span2
+        %label{for: 'plural'} Allow pural forms?
+        %input{type: 'checkbox', id: 'match_plural', name: 'match[plural]',
+              value: 1}
+    .row
+      %div#codes
+        %label{for: 'codes'} Codes
+        %input.span6.match_codes{type: 'text', id: 'match_codes1', name: 'match[code1]',
+                    data: { autocomplete_source: codes_path }}
+    .row
+      %button.btn.btn-info.btn-mini{id: 'new_code', type: 'button'} Add another code
+    %br
+    .row
+      %input.btn.btn-success{type: 'submit', value: 'New Match', name: 'commit'}
+
+:coffee
+  $ ->
+    code_counter = 1
+    $('#new_code').click ->
+      code_counter = code_counter + 1
+      br = '<br>'
+      first = '<input id="match_codes' 
+      second = '" class="span6 ui-autocomplete-input match_codes" type="text" name="match[code'
+      third =  ']" data-autocomplete-source="/codes" autocomplete="off">'
+      field_str = br + first + code_counter + second + code_counter + third
+
+      $('#codes').append(field_str)
+
+      #turn on autocomplete
+      $('.match_codes').each ->
+        $(this).autocomplete
+          source: $(this).data('autocomplete-source')
+      return false

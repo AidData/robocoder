@@ -1,0 +1,63 @@
+.container
+  = link_to "add a match", new_match_path, class: 'btn btn-success'
+  %h2 Testing
+  %table.table{id: "match-table"}
+    %thead
+      %tr
+        %td Match
+        %td Code
+    %tbody
+      - @matches.each do |match|
+        - match.all_word_combinations.each do |combo|
+          %tr
+            %td
+              = link_to combo, match
+            %td
+              = match.codes.map(&:formatted_number).join(', ')
+
+
+:coffee
+  $ ->
+    $('#match-table > tbody > tr').each ->
+
+      desc_data = {}
+      codes = []
+      row = $(this)
+
+      $(this).find('td').each (index) ->
+        text = $(this).text()
+        #dumb formatting
+        text = text.replace /(\r\n|\n|\r)/gm, ""
+        text = text.replace /^\s+|\s+$/g, ""
+        if index % 2 == 0
+          desc_data["description"] = text
+        else
+          split = text.split(',')
+          codes = codes + split
+          codes = codes.replace /,/g, ""
+
+      $.ajax({
+        url: '/classify.json',
+        data: desc_data,
+        type: 'POST',
+        success: (result) ->
+          codes = codes.split(' ')
+          correct = true
+          for c in codes
+            match_found = false
+            for r in result
+              if c == r.formatted_number
+                match_found = true
+
+            if match_found == false
+              correct = false
+
+          if correct == true
+            row.find('td').toggleClass('text-success')
+            row.find('td').find('a').toggleClass('link-success')
+          else
+            row.find('td').toggleClass('text-error')
+            row.find('td').find('a').toggleClass('link-error')
+            alert('There are failing matches')
+      })
+

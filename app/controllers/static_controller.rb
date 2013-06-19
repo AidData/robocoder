@@ -1,29 +1,35 @@
 class StaticController < ApplicationController
   def classify
     desc = params[:description]
-    @matches = []
-    Pattern.all.each do |pattern|
-      @matches << pattern.code_id if regex(pattern).match(desc)
+    desc.strip!
+    desc << ' '
+    desc.insert(0, ' ')
+
+    #look in application controller for this function
+    @pat_matches = roboclassify(desc)
+
+    respond_to do |format|
+      format.html { redirect_to controller: 'static', action: 'robocode', result: @pat_matches }
+      format.json { render json: @pat_matches.map {|m| {name: m.name,
+                                                        number: m.number,
+                                                        formatted_number: m.formatted_number}}}
     end
-    if @mathces.empty?
-      @matches = "no matches"
-    end
-    redirect_to controller: 'static', action: 'robocode', result: @matches
   end
 
   def robocode
     results = params[:result]
     if results.nil?
-      #no flas:
+      #no flash
     elsif results == "no matches"
       flash[:success] = "Robocoder could not classify this description"
     else
       result_string = ""
       results.each do |code_id|
-        code_name = Code.find(code_id).name
-        result_string << "#{code_id} - #{code_name}"
+        c = Code.find(code_id)
+        result_string << "#{c.full_name} "
       end
       flash[:notice] = "Robocoder guesses " + result_string
     end
   end
+
 end

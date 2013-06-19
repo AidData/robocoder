@@ -2,12 +2,29 @@ class Code < ActiveRecord::Base
   attr_accessible :name, :number
   set_primary_key :number
 
-  has_many :patterns, dependent: :delete_all
+  has_and_belongs_to_many :patterns
+  has_and_belongs_to_many :matches
 
   validates :name, presence: true
   validates_presence_of :number
   validates_uniqueness_of :number
 
+  scope :activity_codes, where("number > 999999")
+  scope :purpose_codes, where("number between 999 and 1000000")
+  scope :sector_codes, where("number between 9 and 1000")
+  scope :supersector_codes, where("number < 10")
+
+  def formatted_number
+    if type == "activity"
+      "#{number.to_s[0..4]}.#{number.to_s[5..6]}"
+    else
+      number.to_s
+    end
+  end
+
+  def full_name
+    "#{formatted_number} - #{name}"
+  end
 
   def type
     case number.to_s.length
@@ -23,21 +40,4 @@ class Code < ActiveRecord::Base
       "unknown"
     end
   end
-
-  def self.activity_codes
-    activity = []
-    Code.all.each do |code|
-      activity << code if code.type == "activity"
-    end
-    activity
-  end
-
-  def self.purpose_codes
-    purpose = []
-    Code.all.each do |code|
-      purpose << code if code.type == "purpose"
-    end
-    purpose
-  end
-
 end

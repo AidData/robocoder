@@ -1,8 +1,8 @@
 Robocoder::Application.routes.draw do
   root to: "static#robocode"
-  resources :codes do
-    resources :patterns
-  end
+  resources :codes
+  resources :matches
+  resources :patterns
 
   post 'static/classify'
   match ':action' => 'static#:action'

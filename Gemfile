@@ -12,6 +12,7 @@ gem 'twitter-bootstrap-rails'
 gem 'haml'
 gem 'pg'
 gem 'jquery-rails'
+gem 'jquery-ui-rails'
 gem 'thin'
 
 # Gems used only for assets and not required

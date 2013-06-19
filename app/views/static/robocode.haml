@@ -4,6 +4,13 @@
   %form{action: 'classify', method: "post"}
     %textarea.span5#description{name: "description", rows: "6"}
     %br
-    %input.btn.btn-success{type: "submit", value: "Classify"}
+    %input.btn.btn-large.btn-success{type: "submit", value: "Classify"}
+    %br
+    %br
 
-  = link_to "view codes", codes_path
+.container-fluid
+  .fluid-row
+    .span3.offset7
+      = link_to "add a match", new_match_path, class: 'btn btn-primary'
+    .span3
+      = link_to "test robocoder", matches_path, class: 'btn btn-warning'

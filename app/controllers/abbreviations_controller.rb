@@ -26,7 +26,7 @@ class AbbreviationsController < ApplicationController
   end
 
   def index
-    @abbrevs = Abbreviation.all
+    @abbrevs = Abbreviation.order(:word).all
   end
 
   def edit

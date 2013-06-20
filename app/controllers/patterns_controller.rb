@@ -14,6 +14,7 @@ class PatternsController < ApplicationController
         @codes << Code.find(num)
       end
     end
+
     @pattern = Pattern.new(params["pattern"])
     @pattern.codes << @codes
 
@@ -36,8 +37,9 @@ class PatternsController < ApplicationController
 
   def update
     respond_to do |format|
-      if @pattern.update_attributes(params[:pattern])
-        format.html { render @pattern, notice: 'Pattern updated successfully' }
+      if @pattern.update_attributes(params["pattern"])
+        p "here"
+        format.html { redirect_to @pattern, notice: 'Pattern updated successfully' }
         format.json { head :no_content }
       else
         format.html { render action: 'edit' }

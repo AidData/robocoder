@@ -1,4 +1,8 @@
 %div#match_form
+  .row
+    %a.btn.btn-mini.btn-danger{"data-content" => '"doctors (education|training)" will match both "doctors education" and "doctors training"',
+      href: '#', id: 'hint', rel: 'popover', title: 'Hint'} Hint
+
   %form{id: 'new_match', method: 'post', action: '/matches'}
     .row
       %label{for: 'words'} Words
@@ -18,8 +22,10 @@
               value: 1}
     .row
       %div#codes
+        - param_code = params[:code]
         %label{for: 'codes'} Codes
-        %input.span6.match_codes{type: 'text', id: 'match_codes1', name: 'match[code1]',
+        %input.span6.match_codes{type: 'text', id: 'match_codes1', value: "#{param_code}",
+                    name: 'match[code1]',
                     data: { autocomplete_source: codes_path }}
     .row
       %button.btn.btn-info.btn-mini{id: 'new_code', type: 'button'} Add another code
@@ -29,6 +35,8 @@
 
 :coffee
   $ ->
+    $('#hint').popover
+
     code_counter = 1
     $('#new_code').click ->
       code_counter = code_counter + 1

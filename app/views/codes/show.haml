@@ -1,10 +1,9 @@
-.container
-  %h2 #{formatted_code_number(@code)} - #{@code.name}
+%h2 #{formatted_code_number(@code)} - #{@code.name}
 
-  %h3 Patterns
-  %ul
-    = @code.patterns.each do |pattern|
-      %li
-        = link_to pattern.regex, pattern
+%h3 Patterns
+%ul
+  = @code.patterns.each do |pattern|
+    %li
+      = link_to pattern.regex, pattern
 
-  = link_to "add new match", new_match_path
+= link_to "add new match", new_match_path

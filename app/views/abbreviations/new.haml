@@ -1,0 +1,9 @@
+.row
+  %h2 New Abbreviation
+.row
+  = render 'abbreviation_form'
+
+:coffee
+  $ ->
+    $('#home-link').toggleClass('active')
+    $('#abbrev-link').toggleClass('active')

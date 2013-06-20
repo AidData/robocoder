@@ -1,24 +1,23 @@
-.container
-  %h2 Match
+%h2 Match
 
-  %h3 Words
-  = @match.words
-  - if @match.all_word_combinations.length > 1
-    %h3 All Word Combinations
-    - @match.all_word_combinations.each do |combo|
-      %ul #{combo}
+%h3 Words
+= @match.words
+- if @match.all_word_combinations.length > 1
+  %h3 All Word Combinations
+  - @match.all_word_combinations.each do |combo|
+    %ul #{combo}
 
-  - if @code_matches.sort == @match.codes.sort
-    %h3 Codes
+- if @code_matches.sort == @match.codes.sort
+  %h3 Codes
+  - @code_matches.each do |code|
+    %ul #{code.full_name}
+
+- else
+  .text-error
+    %h3 Robocoder does not match supplied codes
+    %strong Official Codes
+    - @match.codes.each do |code|
+      %ul #{code.full_name}
+    %strong Robocoder's result
     - @code_matches.each do |code|
       %ul #{code.full_name}
-
-  - else
-    .text-error
-      %h3 Robocoder does not match supplied codes
-      %strong Official Codes
-      - @match.codes.each do |code|
-        %ul #{code.full_name}
-      %strong Robocoder's result
-      - @code_matches.each do |code|
-        %ul #{code.full_name}

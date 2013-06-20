@@ -5,16 +5,28 @@ class PatternsController < ApplicationController
     @pattern = Pattern.new
   end
 
-#  def create
-#    @pattern = @code.patterns.build(params[:pattern])
-#    if @pattern.save
-#      flash[:notice] = "Pattern has been created"
-#      redirect_to [@code, @pattern]
-#    else
-#      flash[:alert] = "Pattern has not been created"
-#      render action: "new"
-#    end
-#  end
+  def create
+    code_nums = params["pattern"].delete("codes")
+    @codes = []
+    if code_nums
+      code_nums.each do |num|
+        num.gsub!(/\./,'')
+        @codes << Code.find(num)
+      end
+    end
+    @pattern = Pattern.new(params["pattern"])
+    @pattern.codes << @codes
+
+    respond_to do |format|
+      if @pattern.save
+        format.html { render @pattern, notice: "Pattern has been created" }
+        format.json { render json: @pattern }
+      else
+        format.html {render action: 'new', alert: "Pattern has not been created" }
+        format.json { render json: @pattern.errors, status: :unproccessable_entity }
+      end
+    end
+  end
 
   def show
   end

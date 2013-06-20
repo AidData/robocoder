@@ -1,3 +1,7 @@
-.container
-  %h2 New match
-  = render "match_form"
+%h2 New match
+= render "match_form"
+
+:coffee
+  $ ->
+    $('#home-link').toggleClass('active')
+    $('#match-link').toggleClass('active')

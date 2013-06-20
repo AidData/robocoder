@@ -1,23 +1,24 @@
-.container
-  = link_to "add a match", new_match_path, class: 'btn btn-success'
-  %h2 Testing
-  %table.table{id: "match-table"}
-    %thead
-      %tr
-        %td Match
-        %td Code
-    %tbody
-      - @matches.each do |match|
-        - match.all_word_combinations.each do |combo|
-          %tr
-            %td
-              = link_to combo, match
-            %td
-              = match.codes.map(&:formatted_number).join(', ')
+%h2 Testing
+%table.table.table-bordered{id: "match-table"}
+  %thead
+    %tr
+      %td Match
+      %td Code
+  %tbody
+    - @matches.each do |match|
+      - match.all_word_combinations.each do |combo|
+        %tr
+          %td
+            = link_to combo, match
+          %td
+            = match.codes.map(&:formatted_number).join(', ')
 
 
 :coffee
   $ ->
+    $('#home-link').toggleClass('active')
+    $('#test-link').toggleClass('active')
+
     $('#match-table > tbody > tr').each ->
 
       desc_data = {}
@@ -58,6 +59,13 @@
           else
             row.find('td').toggleClass('text-error')
             row.find('td').find('a').toggleClass('link-error')
-            alert('There are failing matches')
+            pattern_data = {}
+            pattern_data["pattern"] = {"regex": desc_data["description"], "codes": codes }
+            console.log codes
+            $.ajax({
+              url: '/patterns.json',
+              data: pattern_data,
+              type: 'POST',
+              success: (result) ->
+            })
       })
-

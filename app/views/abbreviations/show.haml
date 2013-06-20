@@ -1,0 +1,9 @@
+%h2 Abbreviation
+%h4 Word
+= @abbrev.word
+
+%h4 Abbreviations
+%ul
+  - @abbrev.abbreviations.each do |ab|
+    %li #{ab}
+

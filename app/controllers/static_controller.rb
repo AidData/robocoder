@@ -7,13 +7,12 @@ class StaticController < ApplicationController
 
     #look in application controller for this function
     @pat_matches = roboclassify(desc)
+    @json_response = @pat_matches.map {|m| {name: m.name, number: m.number,
+                                            formatted_number: m.formatted_number}}
     @pat_matches = "no matches" if @pat_matches.empty?
-
     respond_to do |format|
       format.html { redirect_to controller: 'static', action: 'robocode', result: @pat_matches }
-      format.json { render json: @pat_matches.map {|m| {name: m.name,
-                                                        number: m.number,
-                                                        formatted_number: m.formatted_number}}}
+      format.json { render json: @json_response }
     end
   end
 

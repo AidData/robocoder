@@ -11,7 +11,14 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130618185208) do
+ActiveRecord::Schema.define(:version => 20130619191616) do
+
+  create_table "abbreviations", :force => true do |t|
+    t.string   "word"
+    t.text     "abbreviations"
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
+  end
 
   create_table "codes", :id => false, :force => true do |t|
     t.string   "name"

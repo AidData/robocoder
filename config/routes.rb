@@ -3,6 +3,7 @@ Robocoder::Application.routes.draw do
   resources :codes
   resources :matches
   resources :patterns
+  resources :abbreviations
 
   post 'static/classify'
   match ':action' => 'static#:action'

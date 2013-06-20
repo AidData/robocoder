@@ -31,6 +31,18 @@ class Match < ActiveRecord::Base
       true
     end
 
+    # fill in abbreviations
+    combos.each do |combo|
+      Abbreviation.all.each do |ab|
+        if combo.include?(ab.word)
+          ab.abbreviations.each do |a|
+            combos << combo.gsub(ab.word, a)
+          end
+        end
+      end
+    end
+
+    # Get plurals
     if plural
       plurals = []
       combos.each do |combo|
@@ -38,6 +50,8 @@ class Match < ActiveRecord::Base
       end
       combos += plurals
     end
+
+
 
     combos
   end

@@ -46,12 +46,27 @@ class Match < ActiveRecord::Base
     if plural
       plurals = []
       combos.each do |combo|
-        plurals << combo.split(' ').map(&:pluralize).join(' ')
+        plurals << Shellwords.split(combo).map(&:pluralize).join(' ')
       end
       combos += plurals
     end
 
+    # unordered
+    if unordered
+      temp = []
+      #put all permutations into subarrays
+      combos.each do |combo|
+        split_words = Shellwords.split(combo)
+        temp += split_words.permutation.to_a
+      end
 
+      combos = temp.map {|t| t.join(' ') }
+    end
+
+    # get rid of quotes
+    combos.each do |combo|
+      combo.gsub!("'", '')
+    end
 
     combos
   end

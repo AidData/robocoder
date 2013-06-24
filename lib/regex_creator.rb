@@ -1,9 +1,11 @@
+require 'shellwords'
+
 module RegexCreator
   #expects a match object
   def regex_create(match)
     regex_string = ""
     sentence = match.words.strip.downcase
-    words = sentence.split(' ')
+    words = Shellwords.split(sentence)
 
     #plurals
     if match.plural
@@ -13,7 +15,7 @@ module RegexCreator
     #in any order
     if match.unordered
       words.each do |word|
-        regex_string << '(?=.*\s#{word}\s)'
+        regex_string << "(?=.*\s#{word}\s)"
       end
     end
 

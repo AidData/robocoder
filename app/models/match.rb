@@ -1,6 +1,8 @@
 class Match < ActiveRecord::Base
   attr_accessible :words, :unordered, :complete_text, :plural
 
+  validates_presence_of :words
+
   has_and_belongs_to_many :codes
 
   def all_word_combinations

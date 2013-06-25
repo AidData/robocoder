@@ -7,7 +7,6 @@
   - @match.all_word_combinations.each do |combo|
     %ul #{combo}
 
-= @code_matches
 - if @code_matches.sort == @match.codes.sort
   %h3 Codes
   - @code_matches.each do |code|

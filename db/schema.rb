@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130619191616) do
+ActiveRecord::Schema.define(:version => 20130625163651) do
 
   create_table "abbreviations", :force => true do |t|
     t.string   "word"
@@ -38,7 +38,7 @@ ActiveRecord::Schema.define(:version => 20130619191616) do
   end
 
   create_table "matches", :force => true do |t|
-    t.string   "words"
+    t.text     "words"
     t.datetime "created_at",    :null => false
     t.datetime "updated_at",    :null => false
     t.boolean  "unordered"
@@ -47,7 +47,7 @@ ActiveRecord::Schema.define(:version => 20130619191616) do
   end
 
   create_table "patterns", :force => true do |t|
-    t.string   "regex"
+    t.text     "regex"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end

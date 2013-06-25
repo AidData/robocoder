@@ -15,13 +15,13 @@ module RegexCreator
     #in any order
     if match.unordered
       words.each do |word|
-        regex_string << "(?=.*\s#{word}\s)"
+        regex_string << '(?=.*\s+' + word + '\s+)'
       end
     end
 
     #strict order
     if regex_string.empty?
-      regex_string << words.join(' ')
+      regex_string << words.join('\s+')
     end
 
     if match.complete_text

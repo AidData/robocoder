@@ -1,5 +1,6 @@
 class MatchesController < ApplicationController
   include RegexCreator
+  include StringStripper
 
   before_filter :find_match, only: [:show, :edit]
 
@@ -10,7 +11,7 @@ class MatchesController < ApplicationController
   def create
     match_params = params[:match]
     # accept only lower case
-    match_params[:words] = match_params[:words].downcase.gsub('"', "'")
+    match_params[:words] = clean_string(match_params[:words])
 
     # get codes
     codes = []
@@ -36,7 +37,8 @@ class MatchesController < ApplicationController
         end
 
       else
-        format.html { render action 'new', alert: "Match has not been created" }
+        p @match.errors
+        format.html { render action: 'new', alert: "Match has not been created" }
         format.json { render json: @pattern.errors, status: :unproccessable_entity }
       end
     end

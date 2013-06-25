@@ -1,7 +1,9 @@
 class StaticController < ApplicationController
+  include StringStripper
+
   def classify
     desc = params[:description]
-    desc.strip!
+    desc = clean_string(desc)
     desc << ' '
     desc.insert(0, ' ')
 

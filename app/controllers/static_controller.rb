@@ -1,3 +1,6 @@
+require 'uri'
+require 'net/http'
+
 class StaticController < ApplicationController
   include StringStripper
 
@@ -8,12 +11,34 @@ class StaticController < ApplicationController
     desc.insert(0, ' ')
 
     #look in application controller for this function
-    @pat_matches = roboclassify(desc)
-    @json_response = @pat_matches.map {|m| {name: m.name, number: m.number,
+    @code_matches = roboclassify(desc)
+    if @code_matches.empty?
+      term_params = {description: desc}
+      term_result = Net::HTTP.post_form(URI.parse('http://robocode.adamfrey.me'), term_params)
+      if term_result.code == '200'
+        body = term_result.body
+        response_hash = JSON.parse(body)
+        term_code_strings = response_hash.map {|r| r["code"]}
+        term_code_strings.each do |code_string|
+          @code_matches <<  Code.find(code_string.gsub(/\./, ''))
+        end
+      else
+      end
+    end
+
+    if @code_matches.empty?
+      @code_matches = "no matches"
+      @json_response = "no matches"
+    else
+      @json_response = @code_matches.map {|m| {name: m.name, number: m.number,
                                             formatted_number: m.formatted_number}}
-    @pat_matches = "no matches" if @pat_matches.empty?
+    end
+
     respond_to do |format|
-      format.html { redirect_to controller: 'static', action: 'robocode', result: @pat_matches }
+      format.html { redirect_to controller: 'static',
+                                action: 'robocode',
+                                result: @code_matches
+                  }
       format.json { render json: @json_response }
     end
   end
@@ -24,6 +49,7 @@ class StaticController < ApplicationController
       #no flash
     elsif results == "no matches"
       flash[:success] = "Robocoder could not classify this description"
+
     else
       result_string = ""
       results.each do |code_id|

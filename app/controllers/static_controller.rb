@@ -13,16 +13,9 @@ class StaticController < ApplicationController
     #look in application controller for this function
     matches = roboclassify(desc)
     if matches.empty?
-      term_params = {description: desc}
-      term_result = Net::HTTP.post_form(URI.parse('http://robocode.adamfrey.me'), term_params)
-      if term_result.code == '200'
-        body = term_result.body
-        response_hash = JSON.parse(body)
-        term_code_strings = response_hash.map {|r| r["code"]}
-        term_code_strings.each do |code_string|
-          matches <<  Code.find(code_string.gsub(/\./, ''))
-        end
-      else
+      tfidf_matches = tfidf_classify(desc)
+      tfidf_matches.each do |code_string|
+        matches <<  Code.find(code_string.gsub(/\./, ''))
       end
     end
 
@@ -64,4 +57,5 @@ class StaticController < ApplicationController
       flash[:notice] = "Robocoder guesses " + result_string
     end
   end
+
 end

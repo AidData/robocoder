@@ -15,6 +15,7 @@ gem 'jquery-rails'
 gem 'jquery-ui-rails'
 gem 'thin'
 gem 'mongo'
+gem 'therubyracer', require: 'v8'
 
 # Gems used only for assets and not required
 # in production environments by default.

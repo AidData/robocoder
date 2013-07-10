@@ -11,8 +11,8 @@ class StaticController < ApplicationController
     desc.insert(0, ' ')
 
     #look in application controller for this function
-    @code_matches = roboclassify(desc)
-    if @code_matches.empty?
+    matches = roboclassify(desc)
+    if matches.empty?
       term_params = {description: desc}
       term_result = Net::HTTP.post_form(URI.parse('http://robocode.adamfrey.me'), term_params)
       if term_result.code == '200'
@@ -20,10 +20,15 @@ class StaticController < ApplicationController
         response_hash = JSON.parse(body)
         term_code_strings = response_hash.map {|r| r["code"]}
         term_code_strings.each do |code_string|
-          @code_matches <<  Code.find(code_string.gsub(/\./, ''))
+          matches <<  Code.find(code_string.gsub(/\./, ''))
         end
       else
       end
+    end
+
+    @code_matches = []
+    matches.each do |match|
+      @code_matches << match unless @code_matches.index { |x| x.number == match.number }
     end
 
     if @code_matches.empty?
@@ -59,5 +64,4 @@ class StaticController < ApplicationController
       flash[:notice] = "Robocoder guesses " + result_string
     end
   end
-
 end

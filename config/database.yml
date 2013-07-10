@@ -21,5 +21,10 @@ test:
   database: db/test.sqlite3
 
 production:
-  adapter: sqlite3
-  database: db/production.sqlite3
+  adapter: postgresql
+  encoding: unicode
+  database: robocoder
+  username: robocoder_user
+  password: robocoder
+  pool: 500
+  timeout: 5000

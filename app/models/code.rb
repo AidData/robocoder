@@ -1,6 +1,6 @@
 class Code < ActiveRecord::Base
   attr_accessible :name, :number
-  self.primary_key :number
+  self.primary_key = "number"
 
   has_and_belongs_to_many :patterns
   has_and_belongs_to_many :matches

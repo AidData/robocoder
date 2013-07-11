@@ -19,6 +19,7 @@ gem 'therubyracer', require: 'v8'
 gem 'stopwords'
 gem 'ffi-hunspell'
 gem 'bson_ext'
+gem 'protected_attributes'
 
 # Gems used only for assets and not required
 # in production environments by default.

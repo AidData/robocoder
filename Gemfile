@@ -16,6 +16,9 @@ gem 'jquery-ui-rails'
 gem 'thin'
 gem 'mongo'
 gem 'therubyracer', require: 'v8'
+gem 'stopwords'
+gem 'ffi-hunspell'
+gem 'bson_ext'
 
 # Gems used only for assets and not required
 # in production environments by default.

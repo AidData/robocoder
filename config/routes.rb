@@ -6,7 +6,7 @@ Robocoder::Application.routes.draw do
   resources :abbreviations
 
   post 'static/classify'
-  match ':action' => 'static#:action'
+  match ':action' => 'static#:action', via: [:get, :post]
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

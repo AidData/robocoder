@@ -54,7 +54,7 @@ class MatchesController < ApplicationController
   end
 
   def index
-    @matches = Match.all(order: "updated_at DESC")
+    @matches = Match.order("updated_at").page(params[:page]).per(50)
   end
 
   private

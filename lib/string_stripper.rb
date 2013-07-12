@@ -1,15 +1,15 @@
 module StringStripper
   def clean_string(desc)
-    desc = desc.downcase
+    desc.downcase!
     desc.gsub!('"', "'")
-    desc.gsub!(/\W/, ' ')
+    desc.gsub!(/(\/|-)/, ' ')
+    desc.gsub!(/[^a-zA-Z\s]/, '')
 
     # get rid of html
     desc.gsub!(/(\sbr|br\s)/, '')
 
-    # get rid of leading numbers
-    desc.gsub!(/^\d+\s/, '')
-
+    desc.strip!
+    desc.gsub!(/\s+/, ' ')
     #stop repeating strings
     letters = desc.gsub(' ','')
     result = letters.scan(/^(.+)\1+/)

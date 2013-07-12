@@ -70,6 +70,6 @@ class Match < ActiveRecord::Base
       combo.gsub!("'", '')
     end
 
-    combos
+    combos.uniq
   end
 end

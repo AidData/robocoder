@@ -5,14 +5,13 @@ module StringStripper
     desc.gsub!(/\W/, ' ')
 
     # get rid of html
-    desc.gsub!(/\sbr\s/, '')
+    desc.gsub!(/(\sbr|br\s)/, '')
 
     # get rid of leading numbers
     desc.gsub!(/^\d+\s/, '')
 
     #stop repeating strings
     letters = desc.gsub(' ','')
-    p "hmm"
     result = letters.scan(/^(.+)\1+/)
     if not result.empty?
       substring = result.first.first
@@ -29,8 +28,6 @@ module StringStripper
       desc = desc[0..position]
     end
 
-    desc.strip!
-
-    desc
+    desc.strip
   end
 end

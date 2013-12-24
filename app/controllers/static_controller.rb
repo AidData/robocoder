@@ -15,7 +15,9 @@ class StaticController < ApplicationController
     if matches.empty?
       tfidf_matches = tfidf_classify(desc)
       tfidf_matches.each do |code_string|
-        matches <<  Code.find(code_string.gsub(/\./, ''))
+        if Code.exists?( code_string.gsub(/\./, ''))
+          matches <<  Code.find( code_string.gsub(/\./, ''))
+        end
       end
     end
 
@@ -26,7 +28,7 @@ class StaticController < ApplicationController
 
     if @code_matches.empty?
       @code_matches = "no matches"
-      @json_response = "no matches"
+      @json_response = []
     else
       @json_response = @code_matches.map {|m| {name: m.name, number: m.number,
                                             formatted_number: m.formatted_number}}

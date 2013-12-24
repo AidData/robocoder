@@ -116,30 +116,34 @@ class ApplicationController < ActionController::Base
     guesses = results.dup
     final_codes = []
 
-    index = guesses.index {|x| x=~ /\d{5}$/ }
-    if not index
-      purpose_code = guesses[0][0..4]
-      final_codes << purpose_code
-    else
-      purpose_code = guesses[index]
-    end
 
+    if guesses.length > 0
 
-    guesses.each do |guess|
-      if guess.include? purpose_code
-        final_codes << guess
+      index = guesses.index {|x| x=~ /\d{5}$/ }
+      if not index
+        purpose_code = guesses[0][0..4]
+        final_codes << purpose_code
+      else
+        purpose_code = guesses[index]
       end
+
+
+      guesses.each do |guess|
+        if guess.include? purpose_code
+          final_codes << guess
+        end
+      end
+
+      if final_codes.size == 1
+        final_codes << "#{purpose_code}.01"
+      end
+
+      first_code = guesses[0]
+      final_codes << first_code if (not final_codes.include? first_code) && (first_code.size != 5)
+
+      second_code = guesses[1]
+      final_codes << second_code if (not final_codes.include? second_code) && (second_code.size != 5)
     end
-
-    if final_codes.size == 1
-      final_codes << "#{purpose_code}.01"
-    end
-
-    first_code = guesses[0]
-    final_codes << first_code if (not final_codes.include? first_code) && (first_code.size != 5)
-
-    second_code = guesses[1]
-    final_codes << second_code if (not final_codes.include? second_code) && (second_code.size != 5)
 
     final_codes.uniq
   end

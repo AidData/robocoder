@@ -27,7 +27,7 @@ gem 'nokogiri'
 gem 'iso_country_codes'
 gem 'geocoder'
 gem 'bootstrap-sass'
-gem 'TextGeocoder', git: "git://github.com/davidrs/iati-geocoder.git"
+gem 'TextGeocoder', '>= 0.0.6', git: "git://github.com/davidrs/iati-geocoder.git"
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'

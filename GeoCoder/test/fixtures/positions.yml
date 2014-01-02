@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  lat: 9.99
+  long: 9.99
+  activity: 
+
+two:
+  lat: 9.99
+  long: 9.99
+  activity: 

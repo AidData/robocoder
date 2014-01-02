@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+%html
+  %head
+    %title Robocoder
+    = stylesheet_link_tag     "application", media: "all"
+    = javascript_include_tag  "application"
+    = csrf_meta_tags
+  %body
+    - flash.each do |name, msg|
+      - if msg.is_a?(String)
+        %div{:class => "alert alert-#{name == :notice ? "success" : "error"}"}
+          %a.close{"data-dismiss" => "alert"} ×
+          = content_tag :div, msg, :id => "flash_#{name}"
+    %h1
+      = link_to "Robocoder", root_path
+    %br
+    .container
+      .row
+        .span9
+          = yield
+        .span3
+          %ul.nav.nav-list
+            %li#home-link
+              = link_to "Home", root_path
+            %li#match-link
+              = link_to "Add a Match", new_match_path
+            %li#test-link
+              = link_to "Test Robcoder", matches_path
+            %li#abbrev-link
+              = link_to "Add an Abbreviation", new_abbreviation_path
+            %li#other-link.dropdown.active
+              %a.dropdown-toggle{href: '#', "data-toggle" => "dropdown"} Other Sections
+              %ul.dropdown-menu
+                %li
+                  = link_to "View all Abbreviations", abbreviations_path
+                %li
+                  = link_to "View all Codes", codes_path

@@ -1,0 +1,3 @@
+<div class="span12">
+	<%= gmaps(map_options: {zoom: 3, auto_adjust: false}, markers: { data: @json, options: { do_clustering: true, clusterer_maxZoom: 2 } }) %>
+</div>

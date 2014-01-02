@@ -1,5 +1,20 @@
 # Aiddata Robocoder
 
+## TODO
+
+Improve API so you can send an array of descriptions and receive an array of results.
+
+## How can I use it? (Short Version)
+
+send a POST request to 'robocode.adamfrey.me/classify.json' with a 'description'
+parameter that holds the total project description.
+
+receive a JSON array holding the relevant codes for that description
+
+```
+[{"name": "Explosive Mine Removal", "number": 1525001, "formatted_number":"15250.01"},...]
+```
+
 ## What it does
 
 At Aiddata, our research assistants currently do a ton of project
@@ -40,16 +55,6 @@ determines them to be most relevant. Then there is additional filtering to make
 sure that at one and only one purpose code is returned and only a reasonable
 amount of activity codes are returned.
 
-## How can I use it? (Short Version)
-
-send a POST request to 'robocode.adamfrey.me/classify.json' with a 'description'
-parameter that holds the total project description.
-
-receive a JSON array holding the relevant codes for that description
-
-```
-[{"name": "Explosive Mine Removal", "number": 1525001, "formatted_number":"15250.01"},...]
-```
 
 ## How can I use it? (Long Version)
 

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>GatorAID</title>
+	<%= stylesheet_link_tag    "application", :media => "all" %>
+	<%= javascript_include_tag "application" %>
+	<%= csrf_meta_tags %>
+</head>
+<body>
+
+	<div class="navbar navbar-fixed-top">
+		<div class="navbar-inner">
+			<div class="container">
+				<%= link_to "Home", :root, class: "brand" %>
+				<div class="container">
+					<ul class="nav">
+						<li><%= link_to "Import IATI XML Data", new_activity_path %></li>
+						<li><%= link_to "All Activities", activities_path %></li>
+					</ul>
+				</div><!--/.nav-collapse -->
+			</div>
+		</div>
+	</div>
+	<div id="main" role="main">
+		<div class="container">
+			<div class="content">
+				<div class="row">
+					<div class="span12">
+						<%= render 'layouts/messages' %>
+						<%= yield %>
+					</div>
+				</div>
+			</div>
+		</div> <!--! end of .container -->
+	</div> <!--! end of #main -->
+
+	<footer>
+		<%= yield :scripts %>
+	</footer>
+
+</body>
+</html>

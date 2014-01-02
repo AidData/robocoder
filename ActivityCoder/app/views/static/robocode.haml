@@ -1,0 +1,12 @@
+%center
+  = @result
+  %h1 Aiddata Robocoder
+  %form{action: 'classify', method: "post"}
+    %textarea.span5#description{name: "description", rows: "6"}
+    %br
+    %input.btn.btn-large.btn-success{type: "submit", value: "Classify"}
+
+:coffee
+  $ ->
+    $('#other-link').toggleClass('active')
+    $('#home-link').toggleClass('active')

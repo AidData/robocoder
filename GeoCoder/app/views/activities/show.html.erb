@@ -1,0 +1,32 @@
+<div class="page-header">
+	<h1>Activity <%= @activity.identifier %></h1>
+</div>
+
+<%= gmaps(map_options: {zoom: 2, auto_adjust: false}, markers: { data: @json, options: { do_clustering: true, clusterer_maxZoom: 2 } }) %>
+
+<br>
+
+<h3>Activity Locations</h3>
+
+<div class="span8">
+	<table class="table table-bordered">
+		<thead>
+			<tr>
+				<th></th>
+				<th>Lat, Long</th>
+				<th>Keyword</th>
+				<th>Address</th>
+			</tr>
+		</thead>
+		<tbody>
+			<% @activity.positions.each_with_index do |position, index| %>
+			<tr>
+				<td><%= index+1 %></td>
+				<td><%= "#{position.lat}, #{position.long}" %></td>
+				<td><%= position.keyword %></td>
+				<td><%= position.address %></td>
+			</tr>
+			<% end %>
+		</tbody>
+	</table>
+</div>

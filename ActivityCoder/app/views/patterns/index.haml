@@ -1,0 +1,14 @@
+%h1 patterns
+%table.table
+  %thead
+    %tr
+      %th regex
+      %th code
+  %tbody
+    - @patterns.each do |pattern|
+      %tr
+        %th
+          #{pattern.regex}
+        %th
+          #{pattern.code}
+%a{href: '/patterns/new'} Create a new pattern

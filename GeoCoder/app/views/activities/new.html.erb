@@ -1,0 +1,88 @@
+<div class="page-header">
+	<h1>Import IATI XML Data</h1>
+</div>
+<%= form_for @activity, multipart: true, html: {class: "form-horizontal"} do |f| %>
+<%= hidden_field_tag :activities_with_geocode %>
+<div class="control-group hide">
+	<label class="control-label" for="iati_xml">XML</label>
+	<div class="controls">
+		<%= text_area_tag :iati_xml, nil, rows: "18" %>
+	</div>
+</div>
+<div class="control-group hide">
+	<div class="controls">
+		<%= button_to_function "Create", "geocode()", class: "btn" %>
+	</div>
+</div>
+<div class="control-group">
+	<label class="control-label" for="iati_xml_file">Select XML File</label>
+	<div class="controls">
+		<%= file_field_tag :iati_xml_file %>
+	</div>
+</div>
+<div class="control-group">
+	<div class="controls">
+		<%= button_to_function "Upload", "filereader()", class: "btn" %>
+	</div>
+</div>
+
+<%= image_tag("loading.gif", class: "hidden", id: "loading_indicator") %>
+
+<% end %>
+
+
+<script type="text/javascript">
+function geocode(iati_xml) {
+
+	if (typeof iati_xml == "undefined") {
+		iati_xml = $("#iati_xml").val();	
+	}
+
+	$.ajax({
+		url: "/text_geocoder.json",
+		type: "POST",
+		data: {"contents": iati_xml},
+		beforeSend: function() {
+			$('#loading_indicator').removeClass("hidden");
+		},
+		success: function(data) {
+			$("#activities_with_geocode").val(JSON.stringify(data));
+			$('form').submit();
+		}
+	});
+
+}
+
+function filereader() {
+
+	if (window.File && window.FileReader && window.FileList && window.Blob) {
+
+	} else {
+		alert('The File APIs are not fully supported in this browser.');
+		return;
+	}   
+
+	input = document.getElementById('iati_xml_file');
+	if (!input) {
+		alert("Um, couldn't find the fileinput element.");
+	}
+	else if (!input.files) {
+		alert("This browser doesn't seem to support the `files` property of file inputs.");
+	}
+	else if (!input.files[0]) {
+		alert("Please select a file before clicking 'Load'");               
+	}
+	else {
+		file = input.files[0];
+		fr = new FileReader();
+		fr.onload = receivedText;
+		fr.readAsText(file);
+	}
+}
+
+function receivedText() {           
+	geocode(fr.result);
+	$("#iati_xml").val(fr.result);
+}
+
+</script>

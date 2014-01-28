@@ -9,10 +9,10 @@ class Code < ActiveRecord::Base
   validates_presence_of :number
   validates_uniqueness_of :number
 
-  scope :activity_codes, where("number > 999999")
-  scope :purpose_codes, where("number between 999 and 1000000")
-  scope :sector_codes, where("number between 9 and 1000")
-  scope :supersector_codes, where("number < 10")
+  scope :activity_codes, -> { where("number > 999999")}
+  scope :purpose_codes, -> {where("number between 999 and 1000000")}
+  scope :sector_codes, -> {where("number between 9 and 1000")}
+  scope :supersector_codes, -> {where("number < 10")}
 
   def formatted_number
     if type == "activity"

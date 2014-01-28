@@ -1,6 +1,7 @@
 module StringStripper
   def clean_string(desc)
     desc.downcase!
+    desc.gsub!("%20", " ")
     desc.gsub!('"', "'")
     desc.gsub!(/(\/|-)/, ' ')
     desc.gsub!(/[^a-zA-Z\s]/, '')

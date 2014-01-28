@@ -6,14 +6,17 @@ class StaticController < ApplicationController
 
   def classify
     desc = params[:description]
+    sector_code = desc[0,3]
     desc = clean_string(desc)
     desc << ' '
     desc.insert(0, ' ')
 
     #look in application controller for this function
     matches = roboclassify(desc)
-    if matches.empty?
-      tfidf_matches = tfidf_classify(desc)
+
+    if matches.empty? #|| (matches[0].number==31105)
+      puts("Empty")
+      tfidf_matches = tfidf_classify(desc,sector_code)
       tfidf_matches.each do |code_string|
         if Code.exists?( code_string.gsub(/\./, ''))
           matches <<  Code.find( code_string.gsub(/\./, ''))
@@ -21,10 +24,18 @@ class StaticController < ApplicationController
       end
     end
 
+puts 'xxx'
+puts matches.inspect
+    # remove purpose codes from array
+    matches = matches.select { |code| code.number> 999999 }
+
+    #?Replace with call to unique?
     @code_matches = []
     matches.each do |match|
       @code_matches << match unless @code_matches.index { |x| x.number == match.number }
     end
+
+    puts @code_matches.inspect
 
     if @code_matches.empty?
       @code_matches = "no matches"

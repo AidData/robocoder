@@ -43,6 +43,7 @@ class ApplicationController < ActionController::Base
 
 puts("1")
     # TODO print words before and after to see what it strips out.
+    # TODO try stripping out.
     FFI::Hunspell.dict do |dict|
       desc.split(/\s/).each do |word|
         if PASSABLE_WORDS.include? word
@@ -85,9 +86,9 @@ puts("1")
       #Calculate Term frequency and update tf-idf
       word_row.each do |code, num|
         # puts(num)
-        next if num<50
+        next if num<20
         i = i+1
-        next if i==5000
+        next if i==8000
          #     puts("2.2 ")
         max_count_entry = @max_count.find_one({"code" => code})
         max_count = max_count_entry["count"]
@@ -128,8 +129,10 @@ puts("1")
     final_codes = []
 
     # trim guesses to subest of sector code.
-    # guesses = guesses.select { |code| code[0,3] == sector_code }
-
+    # if (Float(sector_code) rescue false)
+    #   puts sector_code
+    #   guesses = guesses.select { |code| code[0,3] == sector_code }
+    # end
 
     if guesses.length > 0
 
@@ -154,18 +157,14 @@ puts("1")
 
       # TODO try returning up to a threshold instead of just 2.
       puts guesses.inspect
-      first_code = guesses[0]
-      final_codes << first_code if (not final_codes.include? first_code) && (first_code.size != 5)
 
-      if(guesses.length >1)
-        second_code = guesses[1]
-        final_codes << second_code if (not final_codes.include? second_code) && (second_code.size != 5)
+      for i in 0..1
+        if(guesses.length >i)
+          second_code = guesses[1]
+          final_codes << second_code if (not final_codes.include? second_code) && (second_code.size != 5)
+        end
       end
 
-      if(guesses.length >2)
-        second_code = guesses[2]
-        final_codes << second_code if (not final_codes.include? second_code) && (second_code.size != 5)
-      end
     end
 
     if final_codes.length == 0

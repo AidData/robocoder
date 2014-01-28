@@ -14,7 +14,7 @@ class StaticController < ApplicationController
     #look in application controller for this function
     matches = roboclassify(desc)
 
-    if matches.empty? #|| (matches[0].number==31105)
+    if matches.empty? || (matches[0].number==31105)
       puts("Empty")
       tfidf_matches = tfidf_classify(desc,sector_code)
       tfidf_matches.each do |code_string|
@@ -34,8 +34,6 @@ puts matches.inspect
     matches.each do |match|
       @code_matches << match unless @code_matches.index { |x| x.number == match.number }
     end
-
-    puts @code_matches.inspect
 
     if @code_matches.empty?
       @code_matches = "no matches"

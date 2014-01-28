@@ -7,7 +7,7 @@ module StringStripper
     desc.gsub!(/[^a-zA-Z\s]/, '')
 
     # get rid of html
-    desc.gsub!(/(\sbr|br\s)/, '')
+    desc.gsub!(/(\s<br|br\s)/, '')
 
     desc.strip!
     desc.gsub!(/\s+/, ' ')

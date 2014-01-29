@@ -1,9 +1,28 @@
 # Aiddata Robocoder
 
 ## TODO
- * Check if there are lots of filler words in dictionary db: 'the' 'is' etc.
- * Try biasing towards the sector code.
 
+- Try same tf ifd style, but with a frequency dictionary for each sector (educaton, health, multisector, etc). (Based on OECD sector from pre-coding)
+- 
+
+## Hackathon - MTL Jan, 2014 
+- Found some minor bugs in code: string cleaning was removing 'br' from any word: 'brown'
+- Removed duplicate code.
+- Found calculation problem with a +1 in tfid
+- Changed algorithm from a tf ifd / code frequency hybrid to below algorithm.
+
+## Curent algorithm
+- Use pure tf ifd to calulcate most important words in pargraph
+- For each important word get all of it's codes and their weights
+- Aggregate all of the codes weights
+- sort by aggregated weight
+- return the heighest weighted codes.
+- 
+
+## Databse Quick Guide
+- words_index:  [word: [all codes where the word has shown up: # times this code has shown up for the word]]
+- document_count: [word: # documents that word shows up in]
+- max_count: [code: # of times the code shows up anywhere]
 
 ## How can I use it? (Short Version)
 

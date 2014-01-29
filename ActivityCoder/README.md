@@ -1,9 +1,8 @@
 # Aiddata Robocoder
 
-## TODO
 
+## TODO
 - Try same tf ifd style, but with a frequency dictionary for each sector (educaton, health, multisector, etc). (Based on OECD sector from pre-coding)
-- 
 
 ## Hackathon - MTL Jan, 2014 
 - Found some minor bugs in code: string cleaning was removing 'br' from any word: 'brown'
@@ -17,7 +16,6 @@
 - Aggregate all of the codes weights
 - sort by aggregated weight
 - return the heighest weighted codes.
-- 
 
 ## Databse Quick Guide
 - words_index:  [word: [all codes where the word has shown up: # times this code has shown up for the word]]

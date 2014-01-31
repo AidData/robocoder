@@ -14,6 +14,7 @@ class StaticController < ApplicationController
     #look in application controller for this function
     matches = roboclassify(desc)
 
+    # if roboclassify returns nothing or '31105' then do tf-idf (term frequency)
     if matches.empty? || (matches[0].number==31105)
       puts("Empty")
       tfidf_matches = tfidf_classify(desc,sector_code)
@@ -24,8 +25,7 @@ class StaticController < ApplicationController
       end
     end
 
-puts 'xxx'
-puts matches.inspect
+    puts matches.inspect
     # remove purpose codes from array
     matches = matches.select { |code| code.number> 999999 }
 

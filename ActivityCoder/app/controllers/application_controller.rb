@@ -77,22 +77,21 @@ puts("1")
 	    puts "#{k} appears #{v} times"
     end
 
+  # Calculate important words using tf-idfs
 	tfidfs = Hash.new(0)
-	
-    words.each do |word|
-        i = i+1
-        next if i==5000
-      word_entry = @coll.find_one('word' => word)
-      next if word_entry.nil?
-      word_row = word_entry["codes"]
-      next if word_row.empty?
+  words.each do |word|
+    i = i+1
+    word_entry = @coll.find_one('word' => word)
+    next if word_entry.nil?
+    word_row = word_entry["codes"]
+    next if word_row.empty?
 
-      #Calculate Inverse Document frequency
-      count_entry = @count_coll.find_one('word' => word)
-      count = count_entry["count"]
+    #Calculate Inverse Document frequency
+    count_entry = @count_coll.find_one('word' => word)
+    count = count_entry["count"]
 
-      quotient = TOTAL_COUNT.to_f / count.to_f + 1
-      idf = Math.log(quotient)
+    quotient = TOTAL_COUNT.to_f / count.to_f + 1
+    idf = Math.log(quotient)
 
 	  num = b[word]
 	  #puts words.length
@@ -101,39 +100,32 @@ puts("1")
 	  puts word
 	  puts tfidf
 	  tfidfs[word] = tfidf
+  end
 
-
-#puts word_row.length
-      #Calculate Term frequency and update tf-idf
-
-    
-    end
 	tfidfs = tfidfs.sort_by {|k,v| -v}
 
+  # get array of important words
 	important_words = tfidfs
 
-    aggregate_code_scores = Hash.new(0)
+  #Aggregate across words the weight for the different codes
+  aggregate_code_scores = Hash.new(0)
+  important_words.each do |word,score|
+    word_entry =  @coll.find_one('word' => word)
+    next if word_entry.nil?
+    word_codes = word_entry["codes"]
+    next if word_codes.empty?
 
-	threshold=0
-    important_words.each do |word,score|
-		threshold += 1
-		break if threshold > 20
-      word_entry =  @coll.find_one('word' => word)
-      next if word_entry.nil?
-      word_codes = word_entry["codes"]
-      next if word_codes.empty?
-
-      word_codes.each do |code, num|
-        aggregate_code_scores[code] += num
-      end
+    word_codes.each do |code, num|
+      aggregate_code_scores[code] += (num*score) #increase weight of important words by multiplying by score
     end
+  end
 
-    #sort aggregate codes
-    aggregate_code_scores = aggregate_code_scores.sort_by {|k,v| -v}
+  #sort aggregate codes
+  aggregate_code_scores = aggregate_code_scores.sort_by {|k,v| -v}
 
-    puts 'important words'
-    puts aggregate_code_scores[0..3].inspect
-    puts '=============='
+  puts 'important words'
+  puts aggregate_code_scores[0..3].inspect
+  puts '=============='
 
 	tf_index = aggregate_code_scores[0..30]
 

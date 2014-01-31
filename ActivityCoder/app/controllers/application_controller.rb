@@ -61,12 +61,24 @@ puts("1")
     end
 
     words = final_words
+	puts words
 
     # store aggregated tf-idf scores for each code here
     master_index = {}
 
     i = 0
 
+	b = Hash.new(0)
+	words.each do |v|
+	    b[v] += 1
+	end
+
+	b.each do |k,v|
+	    puts "#{k} appears #{v} times"
+    end
+
+	tfidfs = Hash.new(0)
+	
     words.each do |word|
         i = i+1
         next if i==5000
@@ -82,31 +94,48 @@ puts("1")
       quotient = TOTAL_COUNT.to_f / count.to_f + 1
       idf = Math.log(quotient)
 
+	  num = b[word]
+	  #puts words.length
+	  tf = 0.5 + ((0.5 * num)/ words.length)
+	  tfidf = tf * idf
+	  puts word
+	  puts tfidf
+	  tfidfs[word] = tfidf
+
+
 #puts word_row.length
       #Calculate Term frequency and update tf-idf
-      word_row.each do |code, num|
-        # puts(num)
-        next if num<20
-        i = i+1
-        next if i==8000
-         #     puts("2.2 ")
-        max_count_entry = @max_count.find_one({"code" => code})
-        max_count = max_count_entry["count"]
 
-        next if max_count == 0
-        tf = 0.5 + ((0.5 * num) / max_count)
-        tfidf = tf * idf
-        next if tfidf == Float::INFINITY
+    
+    end
+	tfidfs = tfidfs.sort_by {|k,v| -v}
 
-        master_index[code] ||= 0
-        master_index[code] += tfidf
+	important_words = tfidfs
+
+    aggregate_code_scores = Hash.new(0)
+
+	threshold=0
+    important_words.each do |word,score|
+		threshold += 1
+		break if threshold > 20
+      word_entry =  @coll.find_one('word' => word)
+      next if word_entry.nil?
+      word_codes = word_entry["codes"]
+      next if word_codes.empty?
+
+      word_codes.each do |code, num|
+        aggregate_code_scores[code] += num
       end
-
     end
 
+    #sort aggregate codes
+    aggregate_code_scores = aggregate_code_scores.sort_by {|k,v| -v}
 
-    # sort to get top codes
-    tf_index = master_index.sort_by {|k,v| -v}
+    puts 'important words'
+    puts aggregate_code_scores[0..3].inspect
+    puts '=============='
+
+	tf_index = aggregate_code_scores[0..30]
 
 #TODO to print size of tf_index
 
@@ -160,7 +189,7 @@ puts("1")
 
       for i in 0..1
         if(guesses.length >i)
-          second_code = guesses[1]
+          second_code = guesses[i]
           final_codes << second_code if (not final_codes.include? second_code) && (second_code.size != 5)
         end
       end
